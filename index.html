@@ -1,2 +1,607 @@
-<h1>Hello from GEO Project Tracker</h1>
-<p>This site is under setup.</p>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEO Project Tracker - Ohio Hospital Project (2025)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #0f4f0f, #1a6b1a, #2d8f2d);
+            color: white;
+            padding: 10px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 200px;
+            box-shadow: 0 4px 15px rgba(13, 61, 13, 0.3);
+        }
+        .logo {
+            width: 302px;
+            height: 302px;
+            object-fit: contain;
+        }
+        .header-center {
+            text-align: center;
+            flex-grow: 1;
+        }
+        .header-center h1 {
+            margin: 0;
+            font-size: 40px;
+            font-weight: bold;
+        }
+        .header-center h2 {
+            margin: 5px 0 0 0;
+            font-size: 28px;
+            font-weight: normal;
+        }
+        .header-center .update-date {
+            margin: 10px 0 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .site-image {
+            width: 300px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .status-section {
+            padding: 0 30px 0 30px;
+            background: linear-gradient(135deg, #f0f8f0, #e8f5e8);
+        }
+        .status-frames {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 0;
+        }
+        .status-frame {
+            background: linear-gradient(135deg, #ffffff, #f8fff8);
+            color: #2c3e50;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(13, 61, 13, 0.12);
+            border: 2px solid #0f4f0f;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .status-frame:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(13, 61, 13, 0.25);
+            border-color: #1a6b1a;
+        }
+        .status-frame h3 {
+            margin: 0 0 20px 0;
+            color: #0f4f0f;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 3px solid #0f4f0f;
+            padding-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+        .status-frame:hover h3 {
+            color: #1a6b1a;
+        }
+        .status-item {
+            margin: 12px 0;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .status-item:last-child {
+            border-bottom: none;
+        }
+        .status-label {
+            font-weight: bold;
+            color: #0f4f0f;
+            font-size: 14px;
+            margin-bottom: 5px;
+            transition: color 0.3s ease;
+        }
+        .status-value {
+            color: #2c3e50;
+            font-size: 20px;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+        .status-text {
+            color: #2c3e50;
+            font-size: 20px;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+        .status-text-green {
+            color: #0f4f0f;
+            font-size: 14px;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        .status-date {
+            color: #2c3e50;
+            font-size: 20px;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+        .status-frame:hover .status-label {
+            color: #1a6b1a;
+        }
+        .status-frame:hover .status-value {
+            color: #0f4f0f;
+            font-size: 22px;
+        }
+        .section {
+            padding: 0 30px 30px 30px;
+            background: linear-gradient(135deg, #f8fff8, #f0f8f0);
+            transition: all 0.3s ease;
+        }
+        .section:hover {
+            background: linear-gradient(135deg, #f0f8f0, #e8f5e8);
+        }
+        .section h2 {
+            color: #0f4f0f;
+            border-bottom: 4px solid #0f4f0f;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        .section:hover h2 {
+            color: #1a6b1a;
+            border-bottom-color: #1a6b1a;
+        }
+        .schedule-table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 15px auto;
+            font-size: 14px;
+        }
+        .schedule-table th, .schedule-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .schedule-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 13px;
+        }
+        .schedule-table td {
+            font-size: 12px;
+        }
+        .status-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-complete { background-color: #27ae60; }
+        .status-in-progress { background-color: #f39c12; }
+        .status-pending { background-color: #95a5a6; }
+        .percentage-column { background-color: #d4edda; }
+        .figures-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .figures-grid-single {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .figures-grid-single .figure-container {
+            max-width: 70%;
+            margin: 0 auto;
+        }
+        .figures-grid-5 {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .figures-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .figure-container {
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff, #f8fff8);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(13, 61, 13, 0.1);
+            border: 2px solid #e8f5e8;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .figure-container:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(13, 61, 13, 0.2);
+            border-color: #0f4f0f;
+            background: linear-gradient(135deg, #f8fff8, #f0f8f0);
+        }
+        .figure-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        .figure-container:hover img {
+            transform: scale(1.05);
+        }
+        .download-section {
+            background: linear-gradient(135deg, #f0f8f0, #e8f5e8);
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .download-section:hover {
+            background: linear-gradient(135deg, #e8f5e8, #d4edda);
+        }
+        .download-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .download-btn {
+            background: linear-gradient(135deg, #0f4f0f, #1a6b1a, #2d8f2d);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(13, 61, 13, 0.3);
+            border: 2px solid #0f4f0f;
+        }
+        .download-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(13, 61, 13, 0.4);
+            background: linear-gradient(135deg, #1a6b1a, #2d8f2d, #3cb371);
+        }
+        .footer {
+            background: linear-gradient(135deg, #0f4f0f, #1a6b1a, #2d8f2d);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 -4px 15px rgba(13, 61, 13, 0.3);
+        }
+        .footer h3 {
+            margin: 0 0 10px 0;
+        }
+        .footer p {
+            margin: 5px 0;
+            opacity: 0.8;
+        }
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .status-frames {
+                grid-template-columns: 1fr;
+            }
+            .figures-grid, .figures-grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .figures-grid-5 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .download-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <img src="Geo Logo.jpg" alt="GEO Logo" class="logo">
+            <div class="header-center">
+                <h1>GEO's Project Tracker</h1>
+                <h2>San Jose Project (2025)</h2>
+                <div class="update-date">Updated on 10/12/2025</div>
+            </div>
+            <img src="Map.jpg" alt="Site Map" class="site-image">
+        </div>
+
+        <!-- Status Section -->
+        <div class="status-section">
+            <div class="status-frames">
+                <div class="status-frame">
+                    <h3>Status</h3>
+                    <div class="status-item">
+                        <div class="status-text">   Drilling and Subsurface Installation</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-text-green">Expected heating start date:</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-date">02/04/2026</div>
+                    </div>
+                </div>
+                <div class="status-frame">
+                    <h3>Invoice Value</h3>
+                    <div class="status-item">
+                        <div class="status-label">Invoice Sum:</div>
+                        <div class="status-value">$1,720,384</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">Received Income:</div>
+                        <div class="status-value">$96,480 (5.6%)</div>
+                    </div>
+                </div>
+                <div class="status-frame">
+                    <h3>Planned Cost</h3>
+                    <div class="status-item">
+                        <div class="status-label">Planned Cost Sum:</div>
+                        <div class="status-value">$1,243,768</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">Actual Spent:</div>
+                        <div class="status-value">$135,552 (10.9%)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="section">
+            <h2>Summary</h2>
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th>Task ID</th>
+                        <th>Task Name</th>
+                        <th>Status</th>
+                        <th>Schedule</th>
+                        <th>Planned Duration</th>
+                        <th>Actual Duration</th>
+                        <th>Duration %</th>
+                        <th>Invoice</th>
+                        <th>Income Received</th>
+                        <th>Income %</th>
+                        <th>Planned Spend</th>
+                        <th>Actual Spend</th>
+                        <th>Spent Cost %</th>
+                        <th>Profit %</th>
+                        <th>Planned Labor Days</th>
+                        <th>Actual Labor Days</th>
+                        <th>Applied Labor %</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr >
+                        <td>200</td>
+                        <td>   Design Activities</td>
+                        <td><span class="status-dot status-completed"></span>Completed</td>
+                        <td>04/02/25 - 06/24/25</td>
+                        <td>60</td>
+                        <td>60</td>
+                        <td class="percentage-column">100%</td>
+                        <td>$96,480</td>
+                        <td>$96,480</td>
+                        <td class="percentage-column">0%</td>
+                        <td>$80,400</td>
+                        <td>$19,628</td>
+                        <td class="percentage-column">24%</td>
+                        <td class="percentage-column">392%</td>
+                        <td>134</td>
+                        <td>23</td>
+                        <td class="percentage-column">17%</td>
+                    </tr>
+
+                    <tr >
+                        <td>300</td>
+                        <td>Pre-Mobilization</td>
+                        <td><span class="status-dot status-completed"></span>Completed</td>
+                        <td>06/25/25 - 09/19/25</td>
+                        <td>63</td>
+                        <td>63</td>
+                        <td class="percentage-column">100%</td>
+                        <td>$414,181</td>
+                        <td>$0</td>
+                        <td class="percentage-column">0%</td>
+                        <td>$201,345</td>
+                        <td>$77,086</td>
+                        <td class="percentage-column">38%</td>
+                        <td class="percentage-column">-100%</td>
+                        <td>21</td>
+                        <td>64</td>
+                        <td class="percentage-column">512%</td>
+                    </tr>
+
+                    <tr style="font-weight: bold;">
+                        <td>400</td>
+                        <td>Drilling</td>
+                        <td><span class="status-dot status-in-progress"></span>In Progress</td>
+                        <td>09/22/25 - 11/11/25</td>
+                        <td>37</td>
+                        <td>18</td>
+                        <td class="percentage-column">49%</td>
+                        <td>$392,239</td>
+                        <td>$0</td>
+                        <td class="percentage-column">0%</td>
+                        <td>$303,239</td>
+                        <td>$38,837</td>
+                        <td class="percentage-column">13%</td>
+                        <td class="percentage-column">-100%</td>
+                        <td>316</td>
+                        <td>41</td>
+                        <td class="percentage-column">23%</td>
+                    </tr>
+
+                    <tr >
+                        <td>500</td>
+                        <td>   Field Construction </td>
+                        <td><span class="status-dot status-future"></span>Future</td>
+                        <td>11/12/25 - 02/03/26</td>
+                        <td>60</td>
+                        <td>N/A</td>
+                        <td class="percentage-column">0%</td>
+                        <td>$361,680</td>
+                        <td>$0</td>
+                        <td class="percentage-column">0%</td>
+                        <td>$280,440</td>
+                        <td>$0</td>
+                        <td class="percentage-column">0%</td>
+                        <td class="percentage-column">0%</td>
+                        <td>288</td>
+                        <td>0</td>
+                        <td class="percentage-column">0%</td>
+                    </tr>
+
+                    <tr >
+                        <td>600</td>
+                        <td>   Operation</td>
+                        <td><span class="status-dot status-future"></span>Future</td>
+                        <td>02/04/26 - 08/12/26</td>
+                        <td>190</td>
+                        <td>N/A</td>
+                        <td class="percentage-column">0%</td>
+                        <td>$376,851</td>
+                        <td>$0</td>
+                        <td class="percentage-column">0%</td>
+                        <td>$313,383</td>
+                        <td>$0</td>
+                        <td class="percentage-column">0%</td>
+                        <td class="percentage-column">0%</td>
+                        <td>370</td>
+                        <td>0</td>
+                        <td class="percentage-column">0%</td>
+                    </tr>
+
+                    <tr >
+                        <td>700</td>
+                        <td>   Demobilization</td>
+                        <td><span class="status-dot status-future"></span>Future</td>
+                        <td>08/13/26 - 09/15/26</td>
+                        <td>24</td>
+                        <td>N/A</td>
+                        <td class="percentage-column">0%</td>
+                        <td>$78,953</td>
+                        <td>$0</td>
+                        <td class="percentage-column">0%</td>
+                        <td>$64,961</td>
+                        <td>$0</td>
+                        <td class="percentage-column">0%</td>
+                        <td class="percentage-column">0%</td>
+                        <td>98</td>
+                        <td>0</td>
+                        <td class="percentage-column">0%</td>
+                    </tr>
+
+                    <tr style="font-weight: bold;">
+                        <td>TOTAL</td>
+                        <td></td>
+                        <td></td>
+                        <td>04/02/25 - 09/15/26</td>
+                        <td>532</td>
+                        <td>197</td>
+                        <td class="percentage-column">37%</td>
+                        <td>$1,720,384</td>
+                        <td>$96,480</td>
+                        <td class="percentage-column">5%</td>
+                        <td>$1,243,768</td>
+                        <td>$135,552</td>
+                        <td class="percentage-column">10%</td>
+                        <td class="percentage-column">-28%</td>
+                        <td>1227</td>
+                        <td>128</td>
+                        <td class="percentage-column">10%</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Cost Tracking Section -->
+        <div class="section">
+            <h2>Cost Tracking</h2>
+            <div class="figures-grid-single">
+                <div class="figure-container">
+                    <img src="figures/figure_9_category_grouped_chart.jpg" alt="Category Comparison">
+                </div>
+            </div>
+            <div class="figures-grid">
+                <div class="figure-container">
+                    <img src="figures/figure_1_cost_tracking.jpg" alt="Cost Tracking Overview">
+                </div>
+                <div class="figure-container">
+                    <img src="figures/figure_2_labor_tracking.jpg" alt="Labor Tracking">
+                </div>
+            </div>
+            <div class="figures-grid-2">
+                <div class="figure-container">
+                    <img src="figures/figure_3_parts_tracking.jpg" alt="Parts Tracking">
+                </div>
+                <div class="figure-container">
+                    <img src="figures/figure_4_travel_tracking.jpg" alt="Travel Tracking">
+                </div>
+            </div>
+            <div class="figures-grid-2">
+                <div class="figure-container">
+                    <img src="figures/figure_5_outsource_tracking.jpg" alt="Outsource Tracking">
+                </div>
+                <div class="figure-container">
+                    <img src="figures/figure_6_equipment_tracking.jpg" alt="Equipment Tracking">
+                </div>
+            </div>
+        </div>
+
+        <!-- Labor Tracking Section -->
+        <div class="section">
+            <h2>Labor Tracking</h2>
+            <div class="figures-grid-2">
+                <div class="figure-container">
+                    <img src="figures/figure_7_onsite_labor_comparison.jpg" alt="On-Site Labor Comparison">
+                </div>
+                <div class="figure-container">
+                    <img src="figures/figure_8_remote_labor_comparison.jpg" alt="Remote Labor Comparison">
+                </div>
+            </div>
+        </div>
+
+        <!-- Download Section -->
+        <div class="download-section">
+            <h2>Download Detailed Reports</h2>
+            <div class="download-buttons">
+                <a href="quickbook_summary.xlsx" class="download-btn" download="QuickBook_Summary.xlsx">📊 QuickBook Summary</a>
+                <a href="cost_tracking_summary.xlsx" class="download-btn" download="Cost_Tracking_Summary.xlsx">📈 Cost Tracking Summary</a>
+                <a href="labor_hour_summary.xlsx" class="download-btn" download="Labor_Hour_Summary.xlsx">⏰ Labor Hour Summary</a>
+                <a href="san_jose_project_report.docx" class="download-btn" download="San_Jose_Project_Report.docx">📄 Word Report</a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <h3>GEO Inc. San Jose Project - Cost Tracking System</h3>
+            <p>© 2025 GEO Inc. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
